@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import Home from "./screens/Home";
 import Results from "./screens/Results";
 import Live from "./screens/Live";
-import { BottomNav, Toast } from "./components/Chrome";
+import { Toast } from "./components/Chrome";
 
 type Screen = "home" | "results" | "live";
 
@@ -11,7 +11,6 @@ const DEST = { code: "DZN", name: "Dahina (Zainabad)" };
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>("home");
-  const [tab, setTab] = useState("home");
   const [from, setFrom] = useState(ORIGIN);
   const [to, setTo] = useState(DEST);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
@@ -23,21 +22,7 @@ export default function App() {
     timer.current = window.setTimeout(() => setToastMsg(null), 2200);
   }, []);
 
-  const go = (next: Screen) => {
-    setScreen(next);
-    if (next === "home") setTab("home");
-    if (next === "live") setTab("map");
-  };
-
-  const onTab = (key: string) => {
-    if (key === "home") return go("home");
-    if (key === "map") return go("live");
-    toast(
-      key === "tickets"
-        ? "No booked tickets yet — pick a bus first"
-        : "Profile is not part of this prototype",
-    );
-  };
+  const go = (next: Screen) => setScreen(next);
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center gap-5 bg-[#0B130F] sm:py-8">
@@ -73,7 +58,6 @@ export default function App() {
 
           {screen === "live" && <Live onBack={() => go("results")} toast={toast} />}
 
-          {screen === "home" && <BottomNav tab={tab} onTab={onTab} />}
           <Toast msg={toastMsg} />
         </div>
       </div>

@@ -40,7 +40,7 @@ export default function Home({
   onClear: (which: "from" | "to") => void;
 }) {
   return (
-    <div className="anim-screen h-full overflow-y-auto no-scrollbar pb-[104px]">
+    <div className="anim-screen h-full overflow-y-auto no-scrollbar pb-[max(22px,env(safe-area-inset-bottom))]">
       {/* ── illustrated hero ─────────────────────────────── */}
       <header className="relative h-[318px] overflow-hidden">
         <img

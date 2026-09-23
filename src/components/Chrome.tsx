@@ -1,71 +1,12 @@
 import { useState } from "react";
-import {
-  ArrowRight,
-  Bell,
-  Bus,
-  Check,
-  Home,
-  Map,
-  Ticket,
-  User,
-  X,
-} from "lucide-react";
+import { ArrowRight, Bell, Bus, Check, X } from "lucide-react";
 import type { Bus as BusType } from "../data";
 import { SEATS } from "../data";
-
-const TABS = [
-  { key: "home", label: "Home", Icon: Home },
-  { key: "map", label: "Live Map", Icon: Map },
-  { key: "tickets", label: "Tickets", Icon: Ticket },
-  { key: "profile", label: "Profile", Icon: User },
-] as const;
-
-export function BottomNav({
-  tab,
-  onTab,
-}: {
-  tab: string;
-  onTab: (k: string) => void;
-}) {
-  return (
-    <nav className="absolute inset-x-0 bottom-0 z-30 border-t border-[#E7EDE9] bg-white/95 px-3 pt-2 pb-[max(10px,env(safe-area-inset-bottom))] backdrop-blur-md">
-      <ul className="grid grid-cols-4">
-        {TABS.map(({ key, label, Icon }) => {
-          const active = tab === key;
-          return (
-            <li key={key} className="flex justify-center">
-              <button
-                onClick={() => onTab(key)}
-                aria-current={active ? "page" : undefined}
-                className={`press flex flex-col items-center gap-1 rounded-2xl px-4 py-1.5 ${
-                  active ? "bg-[#E4F3E9]" : "hover:bg-[#F2F6F3]"
-                }`}
-              >
-                <Icon
-                  size={22}
-                  strokeWidth={active ? 2.6 : 2}
-                  className={active ? "text-[#0F6B37]" : "text-[#7B8B83]"}
-                />
-                <span
-                  className={`text-[12px] leading-none ${
-                    active ? "font-extrabold text-[#0F6B37]" : "font-semibold text-[#7B8B83]"
-                  }`}
-                >
-                  {label}
-                </span>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
-  );
-}
 
 export function Toast({ msg }: { msg: string | null }) {
   if (!msg) return null;
   return (
-    <div className="anim-fade pointer-events-none absolute inset-x-0 bottom-[96px] z-50 flex justify-center px-6">
+    <div className="anim-fade pointer-events-none absolute inset-x-0 bottom-[max(20px,env(safe-area-inset-bottom))] z-50 flex justify-center px-6">
       <div className="flex items-center gap-2 rounded-full bg-[#0F2A1C] px-4 py-2.5 text-[13px] font-semibold text-white shadow-[0_10px_30px_rgba(6,26,16,0.35)]">
         <Check size={15} className="text-[#7BE0A4]" />
         {msg}
