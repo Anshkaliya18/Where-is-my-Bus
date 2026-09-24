@@ -17,12 +17,14 @@ import {
   Star,
 } from "lucide-react";
 import mapTex from "../assets/map-texture.png";
-import { STOPS } from "../data";
+import { STOPS, type Bus as BusType } from "../data";
 
 export default function Live({
+  bus,
   onBack,
   toast,
 }: {
+  bus: BusType;
   onBack: () => void;
   toast: (m: string) => void;
 }) {
@@ -49,7 +51,7 @@ export default function Live({
           </button>
           <div className="min-w-0 flex-1">
             <h1 className="truncate text-[22px] font-extrabold leading-tight tracking-[-0.02em] text-white">
-              Haryana Roadways 721A
+              {bus.operator} {bus.code}
             </h1>
             <p className="truncate text-[13px] font-semibold text-white/85">
               ISBT Delhi → Dahina (Zainabad)
@@ -190,14 +192,17 @@ export default function Live({
         <span className="mx-auto mb-3 block h-1 w-10 rounded-full bg-[#DDE5E0]" />
 
         <div className="flex items-center gap-3">
-          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-[14px] bg-[#E4F3E9]">
-            <Bus size={25} className="text-[#0F6B37]" />
+          <span
+            className="grid h-12 w-12 shrink-0 place-items-center rounded-[14px]"
+            style={{ background: bus.tint }}
+          >
+            <Bus size={25} style={{ color: bus.glyph }} />
           </span>
           <div className="min-w-0 flex-1">
             <p className="flex items-center gap-2 truncate text-[19px] font-extrabold tracking-[-0.01em] text-[#123A25]">
-              Haryana Roadways
+              {bus.operator}
               <span className="rounded-md bg-[#E8F5EC] px-1.5 py-0.5 text-[11.5px] font-extrabold text-[#0F6B37] tnum">
-                721A
+                {bus.code}
               </span>
             </p>
             <p className="truncate text-[12.5px] font-semibold text-[#6B7C74]">
@@ -214,7 +219,7 @@ export default function Live({
             { k: "Distance Left", v: "12 km", s: "" },
             { k: "Estimated Arrival", v: "8 min", s: "10:42 AM", green: true },
             { k: "Current Speed", v: `${speed} km/h`, s: "" },
-            { k: "Trip Duration", v: "3 hr 10 min", s: "" },
+            { k: "Trip Duration", v: bus.dur, s: "" },
           ].map((c) => (
             <div key={c.k} className="px-1.5 first:pl-0 last:pr-0">
               <p className="text-[10.5px] font-semibold leading-tight text-[#6B7C74]">{c.k}</p>

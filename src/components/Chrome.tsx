@@ -89,12 +89,12 @@ export function SeatSheet({
             {Array.from({ length: rows }).map((_, r) => (
               <div key={r} className="mb-1.5 flex items-center justify-center gap-2 last:mb-0">
                 {[0, 1].map((c) => {
-                  const seat = SEATS[r * 2 + c];
+                  const seat = SEATS[r * 4 + c];
                   return <Seat key={c} seat={seat} picked={picked} toggle={toggle} />;
                 })}
                 <span className="h-7 w-4" />
                 {[0, 1].map((c) => {
-                  const seat = SEATS[r * 2 + c + 2];
+                  const seat = SEATS[r * 4 + c + 2];
                   return <Seat key={c} seat={seat} picked={picked} toggle={toggle} />;
                 })}
               </div>

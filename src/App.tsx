@@ -3,6 +3,7 @@ import Home from "./screens/Home";
 import Results from "./screens/Results";
 import Live from "./screens/Live";
 import { Toast } from "./components/Chrome";
+import { BUSES, type Bus } from "./data";
 
 type Screen = "home" | "results" | "live";
 
@@ -13,6 +14,7 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>("home");
   const [from, setFrom] = useState(ORIGIN);
   const [to, setTo] = useState(DEST);
+  const [selectedBus, setSelectedBus] = useState<Bus>(BUSES[1]); // default to Haryana Roadways 721A
   const [toastMsg, setToastMsg] = useState<string | null>(null);
   const timer = useRef<number | null>(null);
 
@@ -21,8 +23,6 @@ export default function App() {
     if (timer.current) window.clearTimeout(timer.current);
     timer.current = window.setTimeout(() => setToastMsg(null), 2200);
   }, []);
-
-  const go = (next: Screen) => setScreen(next);
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center gap-5 bg-[#0B130F] sm:py-8">
@@ -35,8 +35,8 @@ export default function App() {
         <div className="relative h-full overflow-hidden">
           {screen === "home" && (
             <Home
-              onFind={() => go("results")}
-              onRecent={() => go("results")}
+              onFind={() => setScreen("results")}
+              onRecent={() => setScreen("results")}
               from={from}
               to={to}
               onSwap={() => {
@@ -53,10 +53,19 @@ export default function App() {
           )}
 
           {screen === "results" && (
-            <Results onBack={() => go("home")} onTrack={() => go("live")} toast={toast} />
+            <Results
+              onBack={() => setScreen("home")}
+              onTrack={(b) => {
+                setSelectedBus(b);
+                setScreen("live");
+              }}
+              toast={toast}
+            />
           )}
 
-          {screen === "live" && <Live onBack={() => go("results")} toast={toast} />}
+          {screen === "live" && (
+            <Live bus={selectedBus} onBack={() => setScreen("results")} toast={toast} />
+          )}
 
           <Toast msg={toastMsg} />
         </div>
